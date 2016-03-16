@@ -4,7 +4,9 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Alphabet import generic_dna
 from FluGibson.primer_designer import PrimerDesigner
 from FluGibson.plasmids import plasmids
+from time import sleep
 
+import webbrowser as wb
 
 app = Flask(__name__)
 
@@ -26,6 +28,7 @@ def validate_sequence_characters(sequence):
             return True
         except AssertionError:
             return False
+
 
 def validate_sequence_length(sequence):
     """
@@ -62,10 +65,8 @@ def compute_primers():
         # Create a SeqRecord object.
         part = SeqRecord(Seq(sequence.upper(), alphabet=generic_dna),
                          name=sequence_name, id=sequence_name)
-        # print(sequence_name, sequence, backbone)
         backbone_part = plasmids[backbone]
-        print(part, backbone_part)
-
+      
         p = PrimerDesigner()
         p.set_sequences([part, backbone_part])
         p.construct_graph()
