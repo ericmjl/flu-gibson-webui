@@ -4,9 +4,9 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Alphabet import generic_dna
 from FluGibson.primer_designer import PrimerDesigner
 from FluGibson.plasmids import plasmids
-from time import sleep
+from IPython.display import HTML
 
-import webbrowser as wb
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -72,9 +72,13 @@ def compute_primers():
         p.construct_graph()
 
         nodes = p.nodes(data=True)
-        
         edges = p.edges(data=True)
-        return render_template('primers.html', nodes=nodes, edges=edges)
+        protocol = p.pcr_protocol()
+
+        return render_template('primers.html',
+                               nodes=nodes,
+                               edges=edges,
+                               protocol=protocol)
 
 if __name__ == '__main__':
     app.run(debug=True)
