@@ -53,7 +53,7 @@ def error(message):
 def compute_primers():
     # Get the part names.
     sequence_name = request.form['sequence_name']
-    sequence = request.form['sequence']
+    sequence = request.form['sequence'].replace('\n','')
     backbone = request.form['backbone']
 
     # Validation checks
